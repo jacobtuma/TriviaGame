@@ -31,6 +31,7 @@
 			
 
 			<h2 class="text-center" id="question"></h2>
+			<h2 class="text-center" id="determine"></h2>
 
 			
 			<div class= "col-sm-3"> </div>
@@ -41,6 +42,7 @@
 				<h2 class="answers" id="a2" value="2"></h2>
 				<h2 class="answers" id="a3" value="3"></h2>
 				<h2 class="answers" id="a4" value="4"></h2>
+				<h1 id="decision"></h1>
 				<div id="gif"></div>
 
 			</div>
@@ -58,7 +60,8 @@
 		var incorrect = 0;
 		var currentQuestion = 1;
 		var decision;
-
+		var answer;
+		var img;
 
 		var trivia = {
 			question: {
@@ -109,26 +112,27 @@
 					a1: "Iron Man",
 					a2: "Captain America",
 					a3: "Daredevil",
-					a4: "Deadpool"
+					a4: "Deadpool",
 
-				}
+				},
 
 				q7: {
-					q: "Which movie is not Marvel?"
-					a1: "Guardians of the Galaxy"
-					a2: "Daredevil"
-					a3: "Watchmen"
-					a4: "Deadpool"
+					q: "Which movie is not Marvel?",
+					a1: "Guardians of the Galaxy",
+					a2: "Daredevil",
+					a3: "Watchmen",
+					a4: "Deadpool",
 
 				},
+
 				q8: {
-					q:
-					a1:
-					a2:
-					a3:
-					a4:
+					q: "How did get his powers",
+					a1: "born",
+					a2: "accident",
+					a3: "k",
+					a4: "experiment"
 
-				},
+				}
 
 			}
 		}
@@ -160,14 +164,15 @@
 		$("#start").append('<h2 class="btn">Start!</h2>');
 
 		$("#start").on("click", function(){
-			userInput = this
+			
 			clockStart(); 
 			$('#start').html(null);
 
-			$("#a1").attr("class", "btn");
-			$("#a2").attr("class", "btn");
-			$("#a3").attr("class", "btn");
-			$("#a4").attr("class", "btn");
+			$("#a1").addClass("btn");
+			$("#a2").addClass("btn");
+			$("#a3").addClass("btn");
+			$("#a4").addClass( "btn");
+
 
 			question(trivia.question.q1.q,
 				trivia.question.q1.a1,
@@ -176,10 +181,19 @@
 				trivia.question.q1.a4)  
 
 
+
 		}); 
 
+		function updateAnswer () {
+			$('#determine').html(decision);
 
-		function raiseQuestion () {
+		}
+
+
+
+
+
+		function raiseQuestion() {
 			currentQuestion++
 		}
 
@@ -187,47 +201,55 @@
 			clearInterval(timer);
 			$('#question').hide();
 			$('.btn').hide();
-			$('#decision').html('The Correct Answer was: ' + this);
-			$('#gif').html('assets/images/start.png');
-			setTimeout(raiseQuestion, 2000);
+			$('#decision').show()
+			$('#decision').html('The Correct Answer was: ' + answer);
+			$('#gif').html('<img src=' +  img + '>');
+			$('#gif').show()
+			
 
 
 
 
 		}
 
+		console.log(currentQuestion)
+
 		function newQuestion() {
+			$('#determine').html(null);
 			clearInterval(timer);
 			$('#question').show();
 			$('.btn').show();
 			clockStart() 
+			$('#decision').hide()
+			$('#gif').hide()
 
 
 		}
-
+		answer = 'Cyclops';
+		img = "https://media.giphy.com/media/NkalF5pNllQc0/giphy.gif"
 
 		$(".answers").on("click", function(){
+			currentQuestion++
 			transition();
 			setTimeout(newQuestion, 3000);
 			userInput = this
+			console.log(userInput)
+			console.log(currentQuestion)
 
 
-			if (currentQuestion == 1) {
+			if (currentQuestion == 1)  {
+
+				question(trivia.question.q1.q,
+					trivia.question.q1.a1,
+					trivia.question.q1.a2,
+					trivia.question.q1.a3,
+					trivia.question.q1.a4)  
 
 
 
-				if (userInput == a3) {
-					decision = 'Correct!'
-					correct++
-				}
-				else if (userInput != a3) {
-					decision = 'WRONG!'
-					incorrect++
-				}
-			}
 
 
-			else if (currentQuestion === 2){
+			}else if (currentQuestion === 2){
 				
 				
 				question(trivia.question.q2.q,
@@ -235,20 +257,25 @@
 					trivia.question.q2.a2,
 					trivia.question.q2.a3,
 					trivia.question.q2.a4)
+				answer = 'Benedict Cumberbatch';
+				img = 'https://media.giphy.com/media/l3V0AayK443oM9i12/giphy.gif'
 
-				if (userInput == a1) {
+				if (userInput == a3) {
+
+
 					decision = 'Correct!'
 					correct++
+					updateAnswer();
 				}
-				else if (userInput != a1) {
+				else if (userInput != a3) {
 					decision = 'WRONG!'
 					incorrect++
+					updateAnswer();
 				}
 
 
 
 
-				
 
 				
 
@@ -259,12 +286,125 @@
 					trivia.question.q3.a2,
 					trivia.question.q3.a3,
 					trivia.question.q3.a4)
+				answer = 'Batman';
+				img = 'https://media.giphy.com/media/AMJL5dMqqxNL2/giphy.gif'
 
+				if (userInput == a1) {
+					decision = 'Correct!'
+					correct++
+					updateAnswer();
+				}
+				else if (userInput != a1) {
+					decision = 'WRONG!'
+					incorrect++
+					updateAnswer();
+				}
+
+			} else if (currentQuestion === 4){
+				
+				question(trivia.question.q4.q, 
+					trivia.question.q4.a1,
+					trivia.question.q4.a2,
+					trivia.question.q4.a3,
+					trivia.question.q4.a4)
+				answer = 'Metropolis';
+				img = 'https://media.giphy.com/media/10bKPDUM5H7m7u/giphy.gif'
+
+				if (userInput == a4) {
+					decision = 'Correct!'
+					correct++
+					updateAnswer();
+				}
+				else if (userInput != a4) {
+					decision = 'WRONG!'
+					incorrect++
+					updateAnswer();
+				}
+
+
+			} else if (currentQuestion === 5){
+				
+				question(trivia.question.q5.q, 
+					trivia.question.q5.a1,
+					trivia.question.q5.a2,
+					trivia.question.q5.a3,
+					trivia.question.q5.a4)
+				answer = 'Wolverine';
+				img = 'https://media.giphy.com/media/V9aBuTAtxVpLi/giphy.gif'
+
+				if (userInput == a3) {
+					decision = 'Correct!'
+					correct++
+					updateAnswer();
+				}
+				else if (userInput != a3) {
+					decision = 'WRONG!'
+					incorrect++
+					updateAnswer();
+				}
+
+			} else if (currentQuestion === 6){
+				
+				question(trivia.question.q6.q, 
+					trivia.question.q6.a1,
+					trivia.question.q6.a2,
+					trivia.question.q6.a3,
+					trivia.question.q6.a4)
+				answer = 'Captain America';
+				img = 'https://media.giphy.com/media/agADIRJyaVpOE/giphy.gif'
+
+				if (userInput == a4) {
+					decision = 'Correct!'
+					correct++
+					updateAnswer();
+				}
+				else if (userInput != a4) {
+					decision = 'WRONG!'
+					incorrect++
+					updateAnswer();
+				}
+
+			} else if (currentQuestion === 7){
+				
+				question(trivia.question.q7.q, 
+					trivia.question.q7.a1,
+					trivia.question.q7.a2,
+					trivia.question.q7.a3,
+					trivia.question.q7.a4)
+				answer = 'Watchmen';
+				img = 'https://media.giphy.com/media/YZGTSKJd7hixO/giphy.gif'
+
+				if (userInput == a2) {
+					decision = 'Correct!'
+					correct++
+					updateAnswer();
+				}
+				else if (userInput != a2) {
+					decision = 'WRONG!'
+					incorrect++
+					updateAnswer();
+				}
+
+			} else if (currentQuestion === 8){
+				
+				question(trivia.question.q8.q, 
+					trivia.question.q8.a1,
+					trivia.question.q8.a2,
+					trivia.question.q8.a3,
+					trivia.question.q8.a4)
+
+				if (userInput == a3) {
+					decision = 'Correct!'
+					correct++
+					updateAnswer();
+				}
+				else if (userInput != a3) {
+					decision = 'WRONG!'
+					incorrect++
+					updateAnswer();
+				}
 			}
-
-
-
-		})
+		});
 
 		function question(q, a1, a2, a3, a4) {	
 
